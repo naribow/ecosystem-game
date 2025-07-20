@@ -1,0 +1,48 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main # mainブランチにプッシュされたときに実行
+
+jobs:
+  deploy: # ジョブ名をdeployに変更
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pages: write
+      id-token: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4 # リポジトリをチェックアウト
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4 # Node.js環境をセットアップ
+        with:
+          node-version: '20' # 使用するNode.jsのバージョン
+
+      - name: Install dependencies
+        run: npm install # プロジェクトの依存関係をインストール
+
+      - name: Run ESLint
+        run: npm run lint # ESLintを実行してコードの品質をチェック
+
+      - name: Run Prettier
+        run: npm run format # Prettierを実行してコードのフォーマットを修正 (必要であれば)
+        continue-on-error: true # フォーマットエラーがあってもビルドを続行する場合
+
+      - name: Build project
+        run: npm run build # Viteでプロジェクトをビルド
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v3 # GitHub Pagesの環境設定
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3 # ビルド成果物をアップロード
+        with:
+          path: './dist' # Viteのビルド出力ディレクトリ
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4 # GitHub Pagesにデプロイ
