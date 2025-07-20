@@ -1,219 +1,237 @@
 /* src/styles/style.css */
 body {
-   font-family: 'Inter', sans-serif;
-   display: flex;
-   justify-content: center;
-   align-items: center;
-   min-height: 100vh;
-   margin: 0;
-   background-color: #f0f8ff; /* 淡い青 */
-   color: #333;
+  font-family: "Inter", sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+  background-color: #f0f8ff; /* 淡い青 */
+  color: #333;
 }
 
 #app {
-   text-align: center;
-   background-color: #ffffff;
-   padding: 20px;
-   border-radius: 15px;
-   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-   width: 90%;
-   max-width: 1000px;
-   box-sizing: border-box;
+  text-align: center;
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 90%;
+  max-width: 1000px;
+  box-sizing: border-box;
 }
 
 h1 {
-   color: #2c3e50;
-   margin-bottom: 20px;
+  color: #2c3e50;
+  margin-bottom: 20px;
 }
 
 .game-container {
-   display: flex;
-   flex-direction: column;
-   align-items: center;
-   gap: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
 }
 
 #ecosystem-svg {
-   border: 1px solid #ccc;
-   background-color: #e0ffe0; /* 淡い緑 */
-   border-radius: 10px;
-   box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1);
-   width: 100%; /* レスポンシブ対応 */
-   height: auto; /* 高さを自動調整 */
-   max-height: 500px; /* 最大高さを設定 */
+  border: 1px solid #ccc;
+  background-color: #e0ffe0; /* 淡い緑 */
+  border-radius: 10px;
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1);
+  width: 100%; /* レスポンシブ対応 */
+  height: auto; /* 高さを自動調整 */
+  max-height: 500px; /* 最大高さを設定 */
 }
 
 /* SVG内のバーに対する基本スタイル */
 .creature-bar {
-   fill: #4CAF50; /* 植物のデフォルト色 */
-   transition: height 0.3s ease, y 0.3s ease; /* 高さの変化を滑らかに */
+  transition:
+    height 0.3s ease,
+    y 0.3s ease; /* 高さの変化を滑らかに */
 }
 
 /* SVG内のピラミッドセグメントに対する基本スタイル */
 .pyramid-segment {
-   stroke: #333;
-   stroke-width: 1;
-   transition: fill 0.3s ease, stroke 0.3s ease, stroke-width 0.1s ease;
-   cursor: default; /* デフォルトカーソル */
+  stroke: #333;
+  stroke-width: 1;
+  transition:
+    fill 0.3s ease,
+    stroke 0.3s ease,
+    stroke-width 0.1s ease;
+  cursor: default; /* デフォルトカーソル */
 }
 
 .pyramid-segment.hovered {
-   stroke-width: 3; /* ホバー時の辺の太さ */
-   stroke: #1976D2; /* ホバー時の辺の色 */
+  stroke-width: 3; /* ホバー時の辺の太さ */
+  stroke: #1976d2; /* ホバー時の辺の色 */
 }
 
 .pyramid-segment.dragging {
-   fill: #FFEB3B; /* ドラッグ中の強調色 */
-   opacity: 0.9;
-   animation: pulse 0.8s infinite alternate; /* ドラッグ中のアニメーション */
+  fill: #ffeb3b; /* ドラッグ中の強調色 */
+  opacity: 0.9;
+  animation: pulse 0.8s infinite alternate; /* ドラッグ中のアニメーション */
 }
 
 @keyframes pulse {
-   from { transform: scale(1); }
-   to { transform: scale(1.005); }
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.005);
+  }
 }
 
-
 .ui-panel {
-   display: flex;
-   flex-direction: column;
-   gap: 15px;
-   width: 100%;
-   max-width: 300px;
-   background-color: #f9f9f9;
-   padding: 15px;
-   border-radius: 10px;
-   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 100%;
+  max-width: 300px;
+  background-color: #f9f9f9;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
 .info-box {
-   background-color: #e3f2fd; /* 淡い青 */
-   padding: 10px;
-   border-radius: 8px;
-   font-size: 1.1em;
-   color: #1a237e;
-   font-weight: bold;
+  background-color: #e3f2fd; /* 淡い青 */
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 1.1em;
+  color: #1a237e;
+  font-weight: bold;
 }
 
 .creature-controls {
-   display: flex;
-   flex-direction: column;
-   gap: 10px;
-   width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
 }
 
 .control-group {
-   display: flex;
-   justify-content: space-between;
-   align-items: center;
-   background-color: #f0f0f0;
-   padding: 8px 15px;
-   border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f0f0f0;
+  padding: 8px 15px;
+  border-radius: 8px;
 }
 
 .control-group h3 {
-   margin: 0;
-   font-size: 1em;
-   color: #555;
+  margin: 0;
+  font-size: 1em;
+  color: #555;
 }
 
 .action-button {
-   background-color: #4CAF50; /* 緑 */
-   color: white;
-   padding: 8px 15px; /* ボタンのパディングを調整 */
-   border: none;
-   border-radius: 8px;
-   cursor: pointer;
-   font-size: 1em;
-   transition: background-color 0.3s ease, transform 0.1s ease;
-   box-shadow: 0 4px #388E3C;
-   min-width: 40px; /* ボタンの最小幅 */
+  background-color: #4caf50; /* 緑 */
+  color: white;
+  padding: 8px 15px; /* ボタンのパディングを調整 */
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1em;
+  transition:
+    background-color 0.3s ease,
+    transform 0.1s ease;
+  box-shadow: 0 4px #388e3c;
+  min-width: 40px; /* ボタンの最小幅 */
 }
 
 .action-button:hover {
-   background-color: #66BB6A;
-   transform: translateY(-2px);
-   box-shadow: 0 6px #388E3C;
+  background-color: #66bb6a;
+  transform: translateY(-2px);
+  box-shadow: 0 6px #388e3c;
 }
 
 .action-button:active {
-   background-color: #388E3C;
-   transform: translateY(2px);
-   box-shadow: 0 2px #388E3C;
+  background-color: #388e3c;
+  transform: translateY(2px);
+  box-shadow: 0 2px #388e3c;
 }
 
 #ranking-list {
-   list-style: none;
-   padding: 0;
-   margin-top: 10px;
-   text-align: left;
+  list-style: none;
+  padding: 0;
+  margin-top: 10px;
+  text-align: left;
 }
 
 #ranking-list li {
-   background-color: #ffffff;
-   margin-bottom: 5px;
-   padding: 8px 10px;
-   border-radius: 5px;
-   border: 1px solid #eee;
-   display: flex;
-   justify-content: space-between;
-   align-items: center;
+  background-color: #ffffff;
+  margin-bottom: 5px;
+  padding: 8px 10px;
+  border-radius: 5px;
+  border: 1px solid #eee;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-#ranking-list li:nth-child(1) { font-weight: bold; color: #d4af37; } /* Gold */
-#ranking-list li:nth-child(2) { font-weight: bold; color: #a8a8a8; } /* Silver */
-#ranking-list li:nth-child(3) { font-weight: bold; color: #cd7f32; } /* Bronze */
+#ranking-list li:nth-child(1) {
+  font-weight: bold;
+  color: #d4af37;
+} /* Gold */
+#ranking-list li:nth-child(2) {
+  font-weight: bold;
+  color: #a8a8a8;
+} /* Silver */
+#ranking-list li:nth-child(3) {
+  font-weight: bold;
+  color: #cd7f32;
+} /* Bronze */
 
 /* モーダル */
 .modal {
-   display: none; /* 初期状態では非表示 */
-   position: fixed;
-   z-index: 1;
-   left: 0;
-   top: 0;
-   width: 100%;
-   height: 100%;
-   overflow: auto;
-   background-color: rgba(0,0,0,0.4); /* 半透明の背景 */
-   justify-content: center;
-   align-items: center;
+  display: none; /* 初期状態では非表示 */
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4); /* 半透明の背景 */
+  justify-content: center;
+  align-items: center;
 }
 
 .modal-content {
-   background-color: #fefefe;
-   margin: auto;
-   padding: 30px;
-   border: 1px solid #888;
-   width: 80%;
-   max-width: 500px;
-   border-radius: 15px;
-   text-align: center;
-   box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  background-color: #fefefe;
+  margin: auto;
+  padding: 30px;
+  border: 1px solid #888;
+  width: 80%;
+  max-width: 500px;
+  border-radius: 15px;
+  text-align: center;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
 .modal-content h2 {
-   color: #D32F2F; /* 赤 */
-   margin-bottom: 20px;
+  color: #d32f2f; /* 赤 */
+  margin-bottom: 20px;
 }
 
 .modal-content p {
-   font-size: 1.2em;
-   margin-bottom: 20px;
+  font-size: 1.2em;
+  margin-bottom: 20px;
 }
 
 /* レスポンシブデザイン */
 @media (min-width: 768px) {
-   .game-container {
-       flex-direction: row;
-       justify-content: center;
-       align-items: flex-start;
-   }
-   #ecosystem-svg {
-       width: 60%;
-       max-width: 800px;
-   }
-   .ui-panel {
-       width: 35%;
-       max-width: 350px;
-   }
+  .game-container {
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+  }
+  #ecosystem-svg {
+    width: 60%;
+    max-width: 800px;
+  }
+  .ui-panel {
+    width: 35%;
+    max-width: 350px;
+  }
 }

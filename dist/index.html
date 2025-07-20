@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ja">
+ <head>
+   <meta charset="UTF-8" />
+   <link rel="icon" type="image/svg+xml" href="/ecosystem-game/vite.svg" />
+   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+   <title>生態系バランスゲーム</title>
+   <script type="module" crossorigin src="/ecosystem-game/assets/index-C2X2qjBl.js"></script>
+   <link rel="stylesheet" crossorigin href="/ecosystem-game/assets/index-w4FFTq8S.css">
+ </head>
+ <body>
+   <div id="app">
+     <h1>生態系バランスゲーム</h1>
+     <div class="game-container">
+       <svg id="ecosystem-svg" width="800" height="500" viewBox="0 0 800 500"></svg>
+       <div class="ui-panel">
+         <div id="time-display" class="info-box">生存時間: 0秒</div>
+
+         <div class="creature-controls">
+           <div class="control-group">
+             <h3>植物</h3>
+             <button id="plant-increase" class="action-button">+</button>
+             <button id="plant-decrease" class="action-button">-</button>
+           </div>
+           <div class="control-group">
+             <h3>草食動物</h3>
+             <button id="herbivore-increase" class="action-button">+</button>
+             <button id="herbivore-decrease" class="action-button">-</button>
+           </div>
+           <div class="control-group">
+             <h3>肉食動物</h3>
+             <button id="carnivore-increase" class="action-button">+</button>
+             <button id="carnivore-decrease" class="action-button">-</button>
+           </div>
+         </div>
+
+         <button id="restart-button" class="action-button">リスタート</button>
+         <div id="ranking-display" class="info-box">
+           <h2>ランキング</h2>
+           <ul id="ranking-list">
+             <!-- ランキングがここに表示されます -->
+           </ul>
+         </div>
+       </div>
+     </div>
+     <div id="game-over-modal" class="modal">
+       <div class="modal-content">
+         <h2>ゲームオーバー！</h2>
+         <p id="final-score"></p>
+         <button id="modal-restart-button" class="action-button">もう一度プレイ</button>
+       </div>
+     </div>
+   </div>
+ </body>
+</html>
