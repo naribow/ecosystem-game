@@ -228,7 +228,7 @@ export function initializePyramid(
  * @param carnivoreAmount 肉食動物の量
  * @returns 各セグメントの座標と情報
  */
-function calculatePyramidSegments(
+export function calculatePyramidSegments(
   plantAmount: number,
   herbivoreAmount: number,
   carnivoreAmount: number,
@@ -237,86 +237,83 @@ function calculatePyramidSegments(
   const {
     svgWidth,
     svgHeight,
-    pyramidTotalHeight,
-    pyramidBaseWidth,
-    pyramidTopWidth,
     pyramidPaddingBottom,
     pyramidSegmentColors,
   } = GAME_PARAMETERS;
   const centerX = svgWidth / 2;
 
-  // 最大総量（ピラミッドが最大高さになる基準）
-  const maxTotalAmount =
-    GAME_PARAMETERS.initialPlantAmount +
-    GAME_PARAMETERS.initialHerbivoreAmount +
-    GAME_PARAMETERS.initialCarnivoreAmount;
+  // Ensure amounts are positive to avoid Math.sqrt(negative) or division by zero
+  plantAmount = Math.max(1e-6, plantAmount);
+  herbivoreAmount = Math.max(1e-6, herbivoreAmount);
+  carnivoreAmount = Math.max(1e-6, carnivoreAmount);
 
-  // 現在の各層の絶対高さを計算
-  const plantAbsHeight = (plantAmount / maxTotalAmount) * pyramidTotalHeight;
-  const herbivoreAbsHeight =
-    (herbivoreAmount / maxTotalAmount) * pyramidTotalHeight;
-  const carnivoreAbsHeight =
-    (carnivoreAmount / maxTotalAmount) * pyramidTotalHeight;
+  // 新しい計算式に基づいて高さを計算
+  const h_c = Math.sqrt(Math.sqrt(3) * carnivoreAmount);
+  const h_h = Math.sqrt(herbivoreAmount / Math.sqrt(3));
+  const h_p = Math.sqrt(Math.sqrt(3) * plantAmount / 5);
 
-  // ピラミッドの底辺のY座標
-  const pyramidBottomY = svgHeight - pyramidPaddingBottom;
+  // スケーリングファクターを計算
+  const totalCalculatedHeight = h_c + h_h + h_p;
+  const scaleFactor = GAME_PARAMETERS.pyramidTotalHeight / totalCalculatedHeight;
 
-  /**
-   * ピラミッドの特定の高さにおける幅を計算するヘルパー関数
-   * @param h_from_base ピラミッドの底辺からの高さ
-   * @returns その高さにおけるピラミッドの幅
-   */
-  const getWidthAtHeight = (h_from_base: number): number => {
-    if (pyramidTotalHeight === 0) return pyramidBaseWidth; // 0除算対策
-    const ratio = h_from_base / pyramidTotalHeight;
-    return pyramidBaseWidth - (pyramidBaseWidth - pyramidTopWidth) * ratio;
-  };
+  // スケーリングを適用した高さ
+  const scaled_h_c = h_c * scaleFactor;
+  const scaled_h_h = h_h * scaleFactor;
+  const scaled_h_p = h_p * scaleFactor;
 
-  let currentPyramidHeightFromBase = 0; // ピラミッドの底辺からの現在の高さ
+  // 新しい計算式に基づいて幅を計算
+  const sqrt3 = Math.sqrt(3);
+  const base_c = (2 * scaled_h_c) / sqrt3; // 肉食動物の底辺
 
-  // 植物層 (最下層、台形)
-  const plantBottomWidth = getWidthAtHeight(currentPyramidHeightFromBase);
-  currentPyramidHeightFromBase += plantAbsHeight;
-  const plantTopWidth = getWidthAtHeight(currentPyramidHeightFromBase);
+  const top_base_h = (2 * scaled_h_h) / sqrt3; // 草食動物の上辺
+  const bottom_base_h = (4 * scaled_h_h) / sqrt3; // 草食動物の底辺
+
+  const top_base_p = (4 * scaled_h_p) / sqrt3; // 植物の上辺
+  const bottom_base_p = (6 * scaled_h_p) / sqrt3; // 植物の底辺
+
+  let currentY = svgHeight - pyramidPaddingBottom; // Start from the bottom of the SVG
+
+  // Plant layer (bottom trapezoid)
+  const plant_y_bottom = currentY;
+  const plant_y_top = currentY - scaled_h_p;
   segments.push({
     points:
-      `${centerX - plantBottomWidth / 2},${pyramidBottomY} ` +
-      `${centerX + plantBottomWidth / 2},${pyramidBottomY} ` +
-      `${centerX + plantTopWidth / 2},${pyramidBottomY - plantAbsHeight} ` +
-      `${centerX - plantTopWidth / 2},${pyramidBottomY - plantAbsHeight}`,
+      `${centerX - bottom_base_p / 2},${plant_y_bottom} ` +
+      `${centerX + bottom_base_p / 2},${plant_y_bottom} ` +
+      `${centerX + top_base_p / 2},${plant_y_top} ` +
+      `${centerX - top_base_p / 2},${plant_y_top}`,
     fillColor: pyramidSegmentColors.plant,
-    id: "segment-plant",
-    type: "plant",
+    id: 'segment-plant',
+    type: 'plant',
   });
+  currentY = plant_y_top;
 
-  // 草食動物層 (中間層、台形)
-  const herbivoreBottomWidth = plantTopWidth; // 草食動物の下辺は植物の上辺に合わせる
-  currentPyramidHeightFromBase += herbivoreAbsHeight;
-  const herbivoreTopWidth = getWidthAtHeight(currentPyramidHeightFromBase);
+  // Herbivore layer (middle trapezoid)
+  const herbivore_y_bottom = currentY;
+  const herbivore_y_top = currentY - scaled_h_h;
   segments.push({
     points:
-      `${centerX - herbivoreBottomWidth / 2},${pyramidBottomY - plantAbsHeight} ` +
-      `${centerX + herbivoreBottomWidth / 2},${pyramidBottomY - plantAbsHeight} ` +
-      `${centerX + herbivoreTopWidth / 2},${pyramidBottomY - plantAbsHeight - herbivoreAbsHeight} ` +
-      `${centerX - herbivoreTopWidth / 2},${pyramidBottomY - plantAbsHeight - herbivoreAbsHeight}`,
+      `${centerX - bottom_base_h / 2},${herbivore_y_bottom} ` +
+      `${centerX + bottom_base_h / 2},${herbivore_y_bottom} ` +
+      `${centerX + top_base_h / 2},${herbivore_y_top} ` +
+      `${centerX - top_base_h / 2},${herbivore_y_top}`,
     fillColor: pyramidSegmentColors.herbivore,
-    id: "segment-herbivore",
-    type: "herbivore",
+    id: 'segment-herbivore',
+    type: 'herbivore',
   });
+  currentY = herbivore_y_top;
 
-  // 肉食動物層 (最上層、三角形)
-  const carnivoreBottomWidth = herbivoreTopWidth; // 肉食動物の下辺は草食動物の上辺に合わせる
-  currentPyramidHeightFromBase += carnivoreAbsHeight;
-  const carnivoreTopY =
-    pyramidBottomY - plantAbsHeight - herbivoreAbsHeight - carnivoreAbsHeight; // 肉食動物の頂点のY座標
+  // Carnivore layer (top triangle)
+  const carnivore_y_bottom = currentY;
+  const carnivore_y_top = currentY - scaled_h_c;
   segments.push({
     points:
-      `${centerX - carnivoreBottomWidth / 2},${pyramidBottomY - plantAbsHeight - herbivoreAbsHeight} ` +
-      `${centerX + carnivoreBottomWidth / 2},${pyramidBottomY - plantAbsHeight - herbivoreAbsHeight} ` +
-      `${centerX},${carnivoreTopY}`, // 三角形の頂点
+      `${centerX - base_c / 2},${carnivore_y_bottom} ` +
+      `${centerX + base_c / 2},${carnivore_y_bottom} ` +
+      `${centerX},${carnivore_y_top}`, // Top point of triangle
     fillColor: pyramidSegmentColors.carnivore,
-    id: "segment-carnivore",
-    type: "carnivore",
+    id: 'segment-carnivore',
+    type: 'carnivore',
   });
 
   return segments;

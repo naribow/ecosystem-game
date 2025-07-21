@@ -60,7 +60,7 @@ let dragStartX = 0;
 
 // UIモードを切り替えるフラグ (開発中はtrue/falseを切り替えてテスト)
 // 最終的には、このフラグは不要になり、直接 initializePyramid を呼び出す
-const USE_PYRAMID_UI = false; // 初期はバーUI、最終的にtrueにする
+const USE_PYRAMID_UI = true; // 初期はバーUI、最終的にtrueにする
 
 document.addEventListener("DOMContentLoaded", () => {
   initializeGame(); // ゲームを初期化

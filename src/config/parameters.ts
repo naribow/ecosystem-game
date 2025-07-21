@@ -45,8 +45,8 @@ export const GAME_PARAMETERS = {
 
   // UI関連のパラメータ (最終ピラミッド表示用)
   pyramidTotalHeight: 400, // ピラミッド全体の最大高さ
-  pyramidBaseWidth: 600, // ピラミッドの底辺の最大幅
-  pyramidTopWidth: 50, // ピラミッドの最上部（肉食動物の頂点）の幅 (0に近い値)
+  pyramidBaseWidth: 461.88, // ピラミッドの底辺の最大幅 (正三角形の比率に合わせる)
+  pyramidTopWidth: 0, // ピラミッドの最上部（肉食動物の頂点）の幅 (正三角形のため0)
   pyramidPaddingBottom: 50, // SVG下部からのピラミッドのパディング
   pyramidSegmentColors: {
     plant: "#4CAF50", // 緑
