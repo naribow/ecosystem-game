@@ -129,11 +129,11 @@ export function updateBars(
     GAME_PARAMETERS.initialPlantAmount +
     GAME_PARAMETERS.initialHerbivoreAmount +
     GAME_PARAMETERS.initialCarnivoreAmount; // 初期総量基準
-  const plantBarHeight = (plantAmount / totalInitialAmount) * maxBarHeight;
-  const herbivoreBarHeight =
-    (herbivoreAmount / totalInitialAmount) * maxBarHeight;
-  const carnivoreBarHeight =
-    (carnivoreAmount / totalInitialAmount) * maxBarHeight;
+  
+  // totalInitialAmountが0の場合のゼロ除算対策
+  const plantBarHeight = totalInitialAmount > 0 ? Math.max(0, (plantAmount / totalInitialAmount) * maxBarHeight) : 0;
+  const herbivoreBarHeight = totalInitialAmount > 0 ? Math.max(0, (herbivoreAmount / totalInitialAmount) * maxBarHeight) : 0;
+  const carnivoreBarHeight = totalInitialAmount > 0 ? Math.max(0, (carnivoreAmount / totalInitialAmount) * maxBarHeight) : 0;
 
   let currentY = svgHeight;
 

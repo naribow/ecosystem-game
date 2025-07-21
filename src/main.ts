@@ -11,6 +11,7 @@ import {
   adjustCreatureAmount,
   getCurrentState,
   initializeGame,
+  EcosystemState,
 } from "./lib/game";
 import { saveScore, getRanking } from "./lib/storage";
 import { GAME_PARAMETERS } from "./config/parameters";
@@ -97,14 +98,24 @@ document.addEventListener("DOMContentLoaded", () => {
 /**
  * ゲームの状態が更新されたときに呼び出されるコールバック。
  * @param state 現在の生態系状態
+ * @param params 現在のパラメータ値
  */
-function onGameUpdate(state: {
-  plant: number;
-  herbivore: number;
-  carnivore: number;
-  time: number;
-  isGameOver: boolean;
-}): void {
+function onGameUpdate(
+  state: EcosystemState,
+  params: {
+    rA: number;
+    KA: number;
+    a1: number;
+    a2: number;
+    rB: number;
+    b1: number;
+    b2: number;
+    rC: number;
+    hA: number;
+    hB: number;
+    hC: number;
+  },
+): void {
   if (svgElement) {
     if (USE_PYRAMID_UI) {
       updatePyramid(svgElement, state.plant, state.herbivore, state.carnivore);
