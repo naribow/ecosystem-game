@@ -1,6 +1,6 @@
 import { GAME_PARAMETERS } from "../config/parameters";
 
-interface EcosystemState {
+export interface EcosystemState {
   plant: number;
   herbivore: number;
   carnivore: number;
