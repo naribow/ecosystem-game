@@ -234,12 +234,8 @@ export function calculatePyramidSegments(
   carnivoreAmount: number,
 ): SegmentCoordinates[] {
   const segments: SegmentCoordinates[] = [];
-  const {
-    svgWidth,
-    svgHeight,
-    pyramidPaddingBottom,
-    pyramidSegmentColors,
-  } = GAME_PARAMETERS;
+  const { svgWidth, svgHeight, pyramidPaddingBottom, pyramidSegmentColors } =
+    GAME_PARAMETERS;
   const centerX = svgWidth / 2;
 
   // Ensure amounts are positive to avoid Math.sqrt(negative) or division by zero
@@ -250,11 +246,12 @@ export function calculatePyramidSegments(
   // 新しい計算式に基づいて高さを計算
   const h_c = Math.sqrt(Math.sqrt(3) * carnivoreAmount);
   const h_h = Math.sqrt(herbivoreAmount / Math.sqrt(3));
-  const h_p = Math.sqrt(Math.sqrt(3) * plantAmount / 5);
+  const h_p = Math.sqrt((Math.sqrt(3) * plantAmount) / 5);
 
   // スケーリングファクターを計算
   const totalCalculatedHeight = h_c + h_h + h_p;
-  const scaleFactor = GAME_PARAMETERS.pyramidTotalHeight / totalCalculatedHeight;
+  const scaleFactor =
+    GAME_PARAMETERS.pyramidTotalHeight / totalCalculatedHeight;
 
   // スケーリングを適用した高さ
   const scaled_h_c = h_c * scaleFactor;
@@ -283,8 +280,8 @@ export function calculatePyramidSegments(
       `${centerX + top_base_p / 2},${plant_y_top} ` +
       `${centerX - top_base_p / 2},${plant_y_top}`,
     fillColor: pyramidSegmentColors.plant,
-    id: 'segment-plant',
-    type: 'plant',
+    id: "segment-plant",
+    type: "plant",
   });
   currentY = plant_y_top;
 
@@ -298,8 +295,8 @@ export function calculatePyramidSegments(
       `${centerX + top_base_h / 2},${herbivore_y_top} ` +
       `${centerX - top_base_h / 2},${herbivore_y_top}`,
     fillColor: pyramidSegmentColors.herbivore,
-    id: 'segment-herbivore',
-    type: 'herbivore',
+    id: "segment-herbivore",
+    type: "herbivore",
   });
   currentY = herbivore_y_top;
 
@@ -312,8 +309,8 @@ export function calculatePyramidSegments(
       `${centerX + base_c / 2},${carnivore_y_bottom} ` +
       `${centerX},${carnivore_y_top}`, // Top point of triangle
     fillColor: pyramidSegmentColors.carnivore,
-    id: 'segment-carnivore',
-    type: 'carnivore',
+    id: "segment-carnivore",
+    type: "carnivore",
   });
 
   return segments;
