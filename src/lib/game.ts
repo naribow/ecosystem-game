@@ -15,7 +15,19 @@ let onUpdateCallback: ((state: EcosystemState) => void) | null = null;
 let onGameOverCallback: ((score: number) => void) | null = null;
 
 const PARAMETER_UPDATE_INTERVAL = 10000; // 10秒 (ミリ秒)
-let currentActiveParameters: { rA: number; KA: number; a1: number; a2: number; rB: number; b1: number; b2: number; rC: number; hA: number; hB: number; hC: number; };
+let currentActiveParameters: {
+  rA: number;
+  KA: number;
+  a1: number;
+  a2: number;
+  rB: number;
+  b1: number;
+  b2: number;
+  rC: number;
+  hA: number;
+  hB: number;
+  hC: number;
+};
 let lastParameterUpdateTime: DOMHighResTimeStamp;
 
 /**
@@ -34,11 +46,17 @@ export function initializeGame(): void {
   currentActiveParameters = getCurrentRandomizedParameters(); // 初期パラメータを設定
 
   console.log("ゲーム開始！生態系バランスを維持しよう！");
-  console.log(`初期個体数: 植物=${state.plant}, 草食動物=${state.herbivore}, 肉食動物=${state.carnivore}`);
+  console.log(
+    `初期個体数: 植物=${state.plant}, 草食動物=${state.herbivore}, 肉食動物=${state.carnivore}`,
+  );
   if (onUpdateCallback) {
     onUpdateCallback(state);
-    console.log(`現在の個体数: 植物=${state.plant.toFixed(2)}, 草食動物=${state.herbivore.toFixed(2)}, 肉食動物=${state.carnivore.toFixed(2)}`);
-    console.log(`現在のパラメータ: rA=${currentActiveParameters.rA.toFixed(5)}, KA=${currentActiveParameters.KA.toFixed(2)}, a1=${currentActiveParameters.a1.toFixed(5)}, a2=${currentActiveParameters.a2.toFixed(5)}, rB=${currentActiveParameters.rB.toFixed(5)}, b1=${currentActiveParameters.b1.toFixed(5)}, b2=${currentActiveParameters.b2.toFixed(5)}, rC=${currentActiveParameters.rC.toFixed(5)}, hA=${currentActiveParameters.hA.toFixed(5)}, hB=${currentActiveParameters.hB.toFixed(5)}, hC=${currentActiveParameters.hC.toFixed(5)}`);
+    console.log(
+      `現在の個体数: 植物=${state.plant.toFixed(2)}, 草食動物=${state.herbivore.toFixed(2)}, 肉食動物=${state.carnivore.toFixed(2)}`,
+    );
+    console.log(
+      `現在のパラメータ: rA=${currentActiveParameters.rA.toFixed(5)}, KA=${currentActiveParameters.KA.toFixed(2)}, a1=${currentActiveParameters.a1.toFixed(5)}, a2=${currentActiveParameters.a2.toFixed(5)}, rB=${currentActiveParameters.rB.toFixed(5)}, b1=${currentActiveParameters.b1.toFixed(5)}, b2=${currentActiveParameters.b2.toFixed(5)}, rC=${currentActiveParameters.rC.toFixed(5)}, hA=${currentActiveParameters.hA.toFixed(5)}, hB=${currentActiveParameters.hB.toFixed(5)}, hC=${currentActiveParameters.hC.toFixed(5)}`,
+    );
   }
 }
 
@@ -100,8 +118,12 @@ function gameLoop(currentTime: DOMHighResTimeStamp): void {
   // 状態が更新されたことを通知
   if (onUpdateCallback) {
     onUpdateCallback(state);
-    console.log(`現在の個体数: 植物=${state.plant.toFixed(2)}, 草食動物=${state.herbivore.toFixed(2)}, 肉食動物=${state.carnivore.toFixed(2)}`);
-    console.log(`現在のパラメータ: rA=${currentActiveParameters.rA.toFixed(5)}, KA=${currentActiveParameters.KA.toFixed(2)}, a1=${currentActiveParameters.a1.toFixed(5)}, a2=${currentActiveParameters.a2.toFixed(5)}, rB=${currentActiveParameters.rB.toFixed(5)}, b1=${currentActiveParameters.b1.toFixed(5)}, b2=${currentActiveParameters.b2.toFixed(5)}, rC=${currentActiveParameters.rC.toFixed(5)}, hA=${currentActiveParameters.hA.toFixed(5)}, hB=${currentActiveParameters.hB.toFixed(5)}, hC=${currentActiveParameters.hC.toFixed(5)}`);
+    console.log(
+      `現在の個体数: 植物=${state.plant.toFixed(2)}, 草食動物=${state.herbivore.toFixed(2)}, 肉食動物=${state.carnivore.toFixed(2)}`,
+    );
+    console.log(
+      `現在のパラメータ: rA=${currentActiveParameters.rA.toFixed(5)}, KA=${currentActiveParameters.KA.toFixed(2)}, a1=${currentActiveParameters.a1.toFixed(5)}, a2=${currentActiveParameters.a2.toFixed(5)}, rB=${currentActiveParameters.rB.toFixed(5)}, b1=${currentActiveParameters.b1.toFixed(5)}, b2=${currentActiveParameters.b2.toFixed(5)}, rC=${currentActiveParameters.rC.toFixed(5)}, hA=${currentActiveParameters.hA.toFixed(5)}, hB=${currentActiveParameters.hB.toFixed(5)}, hC=${currentActiveParameters.hC.toFixed(5)}`,
+    );
   }
 
   // 次のフレームを要求
@@ -112,18 +134,42 @@ function gameLoop(currentTime: DOMHighResTimeStamp): void {
  * 生態系の量を更新します。
  * @param dt 時間差 (秒)
  */
-function updateEcosystem(dt: number, currentParams: { rA: number; KA: number; a1: number; a2: number; rB: number; b1: number; b2: number; rC: number; hA: number; hB: number; hC: number; }): void {
+function updateEcosystem(
+  dt: number,
+  currentParams: {
+    rA: number;
+    KA: number;
+    a1: number;
+    a2: number;
+    rB: number;
+    b1: number;
+    b2: number;
+    rC: number;
+    hA: number;
+    hB: number;
+    hC: number;
+  },
+): void {
   const { rA, KA, a1, a2, rB, b1, b2, rC, hA, hB, hC } = currentParams;
 
   // 植物 (A) の変化
-  const plantGrowthTerm = (KA === 0) ? 0 : rA * state.plant * (1 - state.plant / KA);
-  const dAdt = plantGrowthTerm - a1 * state.plant * state.herbivore - hA * state.plant;
+  const plantGrowthTerm =
+    KA === 0 ? 0 : rA * state.plant * (1 - state.plant / KA);
+  const dAdt =
+    plantGrowthTerm - a1 * state.plant * state.herbivore - hA * state.plant;
 
   // 草食動物 (B) の変化
-  const dBdt = a2 * state.plant * state.herbivore - rB * state.herbivore - b1 * state.herbivore * state.carnivore - hB * state.herbivore;
+  const dBdt =
+    a2 * state.plant * state.herbivore -
+    rB * state.herbivore -
+    b1 * state.herbivore * state.carnivore -
+    hB * state.herbivore;
 
   // 肉食動物 (C) の変化
-  const dCdt = b2 * state.herbivore * state.carnivore - rC * state.carnivore - hC * state.carnivore;
+  const dCdt =
+    b2 * state.herbivore * state.carnivore -
+    rC * state.carnivore -
+    hC * state.carnivore;
 
   state.plant += dAdt * dt;
   state.herbivore += dBdt * dt;
@@ -152,17 +198,50 @@ function getRandomizedParameter(base: number, variance: number): number {
  * 現在のランダム化されたパラメータ値を生成して返します。
  */
 function getCurrentRandomizedParameters() {
-  const rA = getRandomizedParameter(GAME_PARAMETERS.rA_base, GAME_PARAMETERS.rA_variance);
-  const KA = getRandomizedParameter(GAME_PARAMETERS.KA_base, GAME_PARAMETERS.KA_variance);
-  const a1 = getRandomizedParameter(GAME_PARAMETERS.a1_base, GAME_PARAMETERS.a1_variance);
-  const a2 = getRandomizedParameter(GAME_PARAMETERS.a2_base, GAME_PARAMETERS.a2_variance);
-  const rB = getRandomizedParameter(GAME_PARAMETERS.rB_base, GAME_PARAMETERS.rB_variance);
-  const b1 = getRandomizedParameter(GAME_PARAMETERS.b1_base, GAME_PARAMETERS.b1_variance);
-  const b2 = getRandomizedParameter(GAME_PARAMETERS.b2_base, GAME_PARAMETERS.b2_variance);
-  const rC = getRandomizedParameter(GAME_PARAMETERS.rC_base, GAME_PARAMETERS.rC_variance);
-  const hA = getRandomizedParameter(GAME_PARAMETERS.hA_base, GAME_PARAMETERS.hA_variance);
-  const hB = getRandomizedParameter(GAME_PARAMETERS.hB_base, GAME_PARAMETERS.hB_variance);
-  const hC = getRandomizedParameter(GAME_PARAMETERS.hC_base, GAME_PARAMETERS.hC_variance);
+  const rA = getRandomizedParameter(
+    GAME_PARAMETERS.rA_base,
+    GAME_PARAMETERS.rA_variance,
+  );
+  const KA = getRandomizedParameter(
+    GAME_PARAMETERS.KA_base,
+    GAME_PARAMETERS.KA_variance,
+  );
+  const a1 = getRandomizedParameter(
+    GAME_PARAMETERS.a1_base,
+    GAME_PARAMETERS.a1_variance,
+  );
+  const a2 = getRandomizedParameter(
+    GAME_PARAMETERS.a2_base,
+    GAME_PARAMETERS.a2_variance,
+  );
+  const rB = getRandomizedParameter(
+    GAME_PARAMETERS.rB_base,
+    GAME_PARAMETERS.rB_variance,
+  );
+  const b1 = getRandomizedParameter(
+    GAME_PARAMETERS.b1_base,
+    GAME_PARAMETERS.b1_variance,
+  );
+  const b2 = getRandomizedParameter(
+    GAME_PARAMETERS.b2_base,
+    GAME_PARAMETERS.b2_variance,
+  );
+  const rC = getRandomizedParameter(
+    GAME_PARAMETERS.rC_base,
+    GAME_PARAMETERS.rC_variance,
+  );
+  const hA = getRandomizedParameter(
+    GAME_PARAMETERS.hA_base,
+    GAME_PARAMETERS.hA_variance,
+  );
+  const hB = getRandomizedParameter(
+    GAME_PARAMETERS.hB_base,
+    GAME_PARAMETERS.hB_variance,
+  );
+  const hC = getRandomizedParameter(
+    GAME_PARAMETERS.hC_base,
+    GAME_PARAMETERS.hC_variance,
+  );
   return { rA, KA, a1, a2, rB, b1, b2, rC, hA, hB, hC };
 }
 

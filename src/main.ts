@@ -100,22 +100,7 @@ document.addEventListener("DOMContentLoaded", () => {
  * @param state 現在の生態系状態
  * @param params 現在のパラメータ値
  */
-function onGameUpdate(
-  state: EcosystemState,
-  params: {
-    rA: number;
-    KA: number;
-    a1: number;
-    a2: number;
-    rB: number;
-    b1: number;
-    b2: number;
-    rC: number;
-    hA: number;
-    hB: number;
-    hC: number;
-  },
-): void {
+function onGameUpdate(state: EcosystemState): void {
   if (svgElement) {
     if (USE_PYRAMID_UI) {
       updatePyramid(svgElement, state.plant, state.herbivore, state.carnivore);

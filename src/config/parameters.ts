@@ -1,9 +1,9 @@
 export const GAME_PARAMETERS = {
-initialPlantAmount: 50,
+  initialPlantAmount: 50,
   initialHerbivoreAmount: 30,
   initialCarnivoreAmount: 10,
 
-// 新しい数式用の定数
+  // 新しい数式用の定数
   rA_base: 0.005, // 植物の自然増加率の基本値 (増加)
   rA_variance: 2.5,
   KA_base: 1200, // 植物の環境収容力の基本値 (増加)
