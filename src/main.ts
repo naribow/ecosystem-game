@@ -35,24 +35,6 @@ const modalRestartButton = document.getElementById(
 ) as HTMLButtonElement;
 
 // 生物量調整ボタンの取得
-const plantIncreaseButton = document.getElementById(
-  "plant-increase",
-) as HTMLButtonElement;
-const plantDecreaseButton = document.getElementById(
-  "plant-decrease",
-) as HTMLButtonElement;
-const herbivoreIncreaseButton = document.getElementById(
-  "herbivore-increase",
-) as HTMLButtonElement;
-const herbivoreDecreaseButton = document.getElementById(
-  "herbivore-decrease",
-) as HTMLButtonElement;
-const carnivoreIncreaseButton = document.getElementById(
-  "carnivore-increase",
-) as HTMLButtonElement;
-const carnivoreDecreaseButton = document.getElementById(
-  "carnivore-decrease",
-) as HTMLButtonElement;
 
 let isDragging = false;
 let activeSegment: "plant" | "herbivore" | "carnivore" | null = null;
@@ -224,52 +206,12 @@ function setupBarEventListeners(): void {
       restartGame();
     });
   }
-
-  // 各生物の増減ボタンにイベントリスナーを追加
-  plantIncreaseButton.addEventListener("click", () =>
-    adjustCreatureAmount("plant", 1),
-  );
-  plantDecreaseButton.addEventListener("click", () =>
-    adjustCreatureAmount("plant", -1),
-  );
-  herbivoreIncreaseButton.addEventListener("click", () =>
-    adjustCreatureAmount("herbivore", 1),
-  );
-  herbivoreDecreaseButton.addEventListener("click", () =>
-    adjustCreatureAmount("herbivore", -1),
-  );
-  carnivoreIncreaseButton.addEventListener("click", () =>
-    adjustCreatureAmount("carnivore", 1),
-  );
-  carnivoreDecreaseButton.addEventListener("click", () =>
-    adjustCreatureAmount("carnivore", -1),
-  );
 }
 
 /**
  * ピラミッドUI用のイベントリスナーを設定します。
  */
 function setupPyramidEventListeners(): void {
-  // バーUI用のボタンイベントリスナーを削除 (もしあれば)
-  plantIncreaseButton.removeEventListener("click", () =>
-    adjustCreatureAmount("plant", 1),
-  );
-  plantDecreaseButton.removeEventListener("click", () =>
-    adjustCreatureAmount("plant", -1),
-  );
-  herbivoreIncreaseButton.removeEventListener("click", () =>
-    adjustCreatureAmount("herbivore", 1),
-  );
-  herbivoreDecreaseButton.removeEventListener("click", () =>
-    adjustCreatureAmount("herbivore", -1),
-  );
-  carnivoreIncreaseButton.removeEventListener("click", () =>
-    adjustCreatureAmount("carnivore", 1),
-  );
-  carnivoreDecreaseButton.removeEventListener("click", () =>
-    adjustCreatureAmount("carnivore", -1),
-  );
-
   if (restartButton) {
     restartButton.addEventListener("click", () => {
       restartGame();
